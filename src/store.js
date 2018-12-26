@@ -9,39 +9,29 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    SheetIds: []
+    sheets: []
   },
-  getters:{
-    getSheetIds(state){
-        return state.sheetIds;
-    }
-  },  
+  getters:{},  
   mutations: {
-    loadData(state){
+    GET_SHEETS(){
       try { 
-         var sheetIds =  fs.readFileSync('SheetIds.json','utf-8')
-         const sheetIdsJSON = JSON.parse(sheetIds)
-         state.sheetIds.push(sheetIdsJSON)
-         }
-        catch(e) {
-           alert('Failed to save the file !');
-       }
+      var sheeData =  fs.readFileSync('SheetIds.json','utf-8')
+      state.sheets = JSON.parse(sheeData)
+    }
+    catch(e) {
+       alert('Failed to get data the file !');
+   }
     },
-    saveFile (state,payload) {
+    SAVE_SHEET (state,payload) {
       try { 
-      var sheetIds =  fs.readFileSync('SheetIds.json','utf-8')
-      
-        const sheetIdsJSON = JSON.parse(sheetIds)
-        
-        sheetIdsJSON.sheets.push({
+        stat.sheets.push({
           "id":payload.id,
           "name":payload.name,
           "version":payload.version,
           "is_valid":payload.isValid,
           "date":payload.date
         });
-        fs.writeFileSync('SheetIds.json', JSON.stringify(sheetIdsJSON));
-        state.sheetIds = sheetIdsJSON;
+        fs.writeFileSync('SheetIds.json', JSON.stringify(sheetIdsJSON)); 
        }
       catch(e) {
          alert('Failed to save the file !');
@@ -49,11 +39,11 @@ export default new Vuex.Store({
   }
 },
   actions: {
-    loadData ({ commit, dispatch }) {
-      commit('loadData', dispatch );
+    loadSheets ({commit},payload) {
+      commit('GET_SHEETS');
     },
     saveFile ({commit},payload) {
-      commit('saveFile',payload);
+      commit('SAVE_SHEET',payload);
     }
   }
 })

@@ -4,26 +4,28 @@
     <input v-model="sheetid" placeholder="edit me">
     <button class="btn-sheet-id" @click="SetSheetId">Click me !</button>
      <ul class="message-list" ref="list">
-     <li v-for="sheetId in SheetIds">
-    {{ sheetId.id }} - {{ sheetId.name }} - {{ sheetId.isValid }}
+     <li v-for="sheet in sheets">
+    {{ sheet.id }} - {{ sheet.name }} - {{ sheet.isValid }}
   </li>
     </ul>
   </div>
 </template>
 <script>
+import {mapState,mapActions} from 'vuex'
 export default {
   name: "setting",
   computed: {
-    SheetIds() {
-      return this.$store.getters.getSheetIds;
-    }
+    ...mapState([
+      'sheets'
+    ])
   },
   data: () => {
     return {
       sheetid: ""
     };
   },
-  methods:{ 
+  methods:{
+    ...mapActions(['loadSheets']), 
     SetSheetId(){
       var sheet = {
                    id:this.sheetid,
@@ -32,11 +34,9 @@ export default {
                    isValid:false,
                    date:"22/03/2016 14:03:01"
                    }
-
-      this.$store.dispatch('saveFile',sheet)
+    mapActions(['saveFile'])  
     }
   }
-  
 };
 </script>
 
