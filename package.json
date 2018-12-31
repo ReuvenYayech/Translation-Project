@@ -11,7 +11,10 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "google-spreadsheet": "^2.0.6",
+    "googleapis": "^27.0.0",
     "jshint": "^2.9.7",
+    "promise": "^8.0.2",
     "register-service-worker": "^1.5.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
